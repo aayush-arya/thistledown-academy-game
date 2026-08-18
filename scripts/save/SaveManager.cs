@@ -31,6 +31,12 @@ public partial class SaveManager : Node
 
 	public void Save(int slot)
 	{
+		var pinPositions = new Dictionary<string, float[]>();
+		foreach (var kvp in ClueDatabase.Instance.GetPinPositionsForSave())
+		{
+			pinPositions[kvp.Key] = new[] { kvp.Value.X, kvp.Value.Y };
+		}
+
 		var data = new SaveData
 		{
 			Day = DayNightManager.Instance.CurrentDay,
@@ -41,6 +47,7 @@ public partial class SaveManager : Node
 			DiscoveredClues = new List<string>(ClueDatabase.Instance.GetDiscoveredForSave()),
 			CorkboardConnections = new List<string>(ClueDatabase.Instance.GetConnectionsForSave()),
 			Relationships = new Dictionary<string, int>(RelationshipManager.Instance.GetValuesForSave()),
+			PinPositions = pinPositions,
 		};
 
 		string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
@@ -92,6 +99,13 @@ public partial class SaveManager : Node
 		GameManager.Instance.LoadFromSave(data.Act, data.Flags, data.UnlockedLocations);
 		ClueDatabase.Instance.LoadFromSave(data.DiscoveredClues, data.CorkboardConnections);
 		RelationshipManager.Instance.LoadFromSave(data.Relationships);
+
+		var pinPositions = new Dictionary<string, Vector2>();
+		foreach (var kvp in data.PinPositions)
+		{
+			if (kvp.Value.Length == 2) pinPositions[kvp.Key] = new Vector2(kvp.Value[0], kvp.Value[1]);
+		}
+		ClueDatabase.Instance.LoadPinPositionsFromSave(pinPositions);
 
 		return true;
 	}

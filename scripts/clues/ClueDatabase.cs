@@ -27,6 +27,10 @@ public partial class ClueDatabase : Node
 	// order of connection doesn't matter.
 	private readonly HashSet<string> _connections = new();
 
+	// Where the player last dragged each pin on the corkboard. Absent
+	// entries get a deterministic scatter position from the UI instead.
+	private readonly Dictionary<string, Vector2> _pinPositions = new();
+
 	public override void _Ready()
 	{
 		Instance = this;
@@ -147,8 +151,23 @@ public partial class ClueDatabase : Node
 
 	public bool IsConnected(string clueIdA, string clueIdB) => _connections.Contains(NormalizeKey(clueIdA, clueIdB));
 
+	// All confirmed connections, as (idA, idB) pairs, for the corkboard to draw.
+	public IEnumerable<(string A, string B)> GetAllConnections()
+	{
+		foreach (var key in _connections)
+		{
+			var parts = key.Split('|');
+			if (parts.Length == 2) yield return (parts[0], parts[1]);
+		}
+	}
+
 	private static string NormalizeKey(string a, string b) =>
 		string.CompareOrdinal(a, b) <= 0 ? $"{a}|{b}" : $"{b}|{a}";
+
+	public Vector2? GetPinPosition(string clueId) =>
+		_pinPositions.TryGetValue(clueId, out var pos) ? pos : null;
+
+	public void SetPinPosition(string clueId, Vector2 position) => _pinPositions[clueId] = position;
 
 	// -- persistence helpers, called by SaveManager --
 
@@ -156,11 +175,19 @@ public partial class ClueDatabase : Node
 
 	public IEnumerable<string> GetConnectionsForSave() => _connections;
 
+	public IReadOnlyDictionary<string, Vector2> GetPinPositionsForSave() => _pinPositions;
+
 	public void LoadFromSave(IEnumerable<string> discovered, IEnumerable<string> connections)
 	{
 		_discovered.Clear();
 		foreach (var id in discovered) _discovered.Add(id);
 		_connections.Clear();
 		foreach (var conn in connections) _connections.Add(conn);
+	}
+
+	public void LoadPinPositionsFromSave(Dictionary<string, Vector2> positions)
+	{
+		_pinPositions.Clear();
+		foreach (var kvp in positions) _pinPositions[kvp.Key] = kvp.Value;
 	}
 }

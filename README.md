@@ -20,14 +20,18 @@ This is an in-progress solo/AI-assisted build. Current state:
 - JSON-driven branching dialogue data model + gating logic (`DialogueManager`)
 - Relationship meters for Junie/Priya (`RelationshipManager`)
 - JSON save/load covering day, flags, unlocked locations, discovered clues, corkboard
-  connections, and relationship values (`SaveManager`)
-- Third-person walk/look/interact player controller
-- A minimal playable test scene (greenhouse) with two pickable clues, and a main menu
+  connections, pin layout, and relationship values (`SaveManager`)
+- Third-person walk/look/interact player controller (interact ray excludes the player's own
+  body; screen-center crosshair)
+- Corkboard UI: drag cards to reposition (persisted), drag a string from a card's tack to
+  another card to attempt a connection, soft "that doesn't feel right yet" nudge on a wrong
+  guess, opens/closes with **J** and freezes player movement while open (`CorkboardUI`,
+  `CorkboardPin`, `CorkboardController`)
+- A minimal playable test scene (greenhouse) with two pickable clues, a "clue found" toast,
+  and a main menu
 - Seed content for Act 1 (greenhouse clues + Junie's opening dialogue tree)
 
 **Not yet built** (see `docs/mystery_flowchart.md` for the design):
-- Corkboard UI (drag-and-connect string interface) — currently the connection logic exists
-  in `ClueDatabase.TryConnect`, but there's no visual board to drive it
 - Dialogue box UI with portraits — `DialogueManager` has no on-screen presentation yet
 - Interrogation/present-evidence UI for suspects
 - Remaining locations (Lake Shore, Archive, Bell Tower) — only the Greenhouse has a built scene

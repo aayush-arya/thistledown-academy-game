@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/clues/CluePickup.cs" id="2"]
 [ext_resource type="Script" path="res://scripts/managers/InteractPromptHud.cs" id="3"]
+[ext_resource type="Script" path="res://scripts/managers/CorkboardController.cs" id="4"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
 size = Vector3(20, 0.2, 20)
@@ -50,6 +51,10 @@ shape = SubResource("BoxShape3D_floor")
 
 [node name="Player" parent="." instance=ExtResource("1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 4)
+
+[node name="CorkboardController" type="Node" parent="."]
+script = ExtResource("4")
+PlayerPath = NodePath("../Player")
 
 [node name="Clue_MissingPoster" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)

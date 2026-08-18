@@ -20,9 +20,24 @@ public partial class PlayerController : CharacterBody3D
 	private RayCast3D _interactRay = null!;
 
 	private Node? _currentInteractable;
+	private bool _inputEnabled = true;
 
 	[Signal]
 	public delegate void InteractionTargetChangedEventHandler(string promptText);
+
+	// Used by UI overlays (corkboard, dialogue, pause) to freeze movement/
+	// look/interact and release the mouse while they're open.
+	public void SetGameplayInputEnabled(bool enabled)
+	{
+		_inputEnabled = enabled;
+		Input.MouseMode = enabled ? Input.MouseModeEnum.Captured : Input.MouseModeEnum.Visible;
+
+		if (!enabled && _currentInteractable != null)
+		{
+			_currentInteractable = null;
+			EmitSignal(SignalName.InteractionTargetChanged, "");
+		}
+	}
 
 	public override void _Ready()
 	{
@@ -41,6 +56,8 @@ public partial class PlayerController : CharacterBody3D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		if (!_inputEnabled) return;
+
 		if (@event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
 			RotateY(-mouseMotion.Relative.X * MouseSensitivity);
@@ -65,6 +82,13 @@ public partial class PlayerController : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (!_inputEnabled)
+		{
+			Velocity = new Vector3(0, Velocity.Y, 0);
+			MoveAndSlide();
+			return;
+		}
+
 		Vector3 velocity = Velocity;
 
 		if (!IsOnFloor())

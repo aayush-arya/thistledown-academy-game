@@ -35,4 +35,9 @@ public class SaveData
 
 	[JsonPropertyName("relationships")]
 	public Dictionary<string, int> Relationships { get; set; } = new();
+
+	// Corkboard pin layout: clue id -> [x, y]. Kept separate from
+	// CorkboardConnections since it's presentation, not progression.
+	[JsonPropertyName("pinPositions")]
+	public Dictionary<string, float[]> PinPositions { get; set; } = new();
 }
