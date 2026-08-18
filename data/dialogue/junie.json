@@ -1,0 +1,98 @@
+{
+  "nodes": [
+    {
+      "id": "junie_intro",
+      "speaker": "Junie",
+      "text": "Oh good, you're up. Okay, don't freak out, but I need a second opinion on something conspiratorial.",
+      "options": [
+        {
+          "text": "I wasn't going to freak out.",
+          "next": "junie_intro_2"
+        },
+        {
+          "text": "[Say nothing. Wait for her to continue.]",
+          "next": "junie_intro_2"
+        }
+      ]
+    },
+    {
+      "id": "junie_intro_2",
+      "speaker": "Junie",
+      "text": "Tomas Reyes. Third-year, plays the world's saddest trumpet, hasn't been to breakfast in four days. Missing-poster levels of missing. Look at my board.",
+      "options": [
+        {
+          "text": "Ask about the poster.",
+          "next": "junie_poster",
+          "givesClue": "gh_missing_poster"
+        },
+        {
+          "text": "Ask what she thinks happened.",
+          "next": "junie_theory",
+          "givesClue": "gh_junie_theory"
+        }
+      ]
+    },
+    {
+      "id": "junie_poster",
+      "speaker": "Junie",
+      "text": "Someone drew a little bell next to his photo and then tried to erase it. That's not nothing.",
+      "options": [
+        {
+          "text": "Ask what she thinks happened.",
+          "next": "junie_theory",
+          "requiresClue": "gh_missing_poster",
+          "givesClue": "gh_junie_theory"
+        },
+        {
+          "text": "[End conversation.]",
+          "next": null
+        }
+      ]
+    },
+    {
+      "id": "junie_theory",
+      "speaker": "Junie",
+      "text": "Okay, hear me out. Not saying it's the lake. But it's kind of always the lake.",
+      "options": [
+        {
+          "text": "That's not a theory, that's a location.",
+          "next": "junie_theory_reply",
+          "relationshipTarget": "junie",
+          "relationshipDelta": 1
+        },
+        {
+          "text": "[End conversation.]",
+          "next": null
+        }
+      ]
+    },
+    {
+      "id": "junie_theory_reply",
+      "speaker": "Junie",
+      "text": "Rude, but accurate, which is worse. Look — I've got a photo club excuse to hang around the lake path with a camera. You want in?",
+      "options": [
+        {
+          "text": "Fine. Show me what you've got.",
+          "next": null,
+          "setFlag": "junie_partnered",
+          "relationshipTarget": "junie",
+          "relationshipDelta": 1
+        }
+      ]
+    },
+    {
+      "id": "junie_trusted_sheet",
+      "speaker": "Junie",
+      "text": "Okay, this one I haven't even shown the photo club. Corner of the frame, one of the dusk shots. Somebody standing dead still by the reeds. I only noticed on the third pass.",
+      "options": [
+        {
+          "text": "Ask to see it.",
+          "next": null,
+          "requiresRelationship": "junie",
+          "requiresRelationshipValue": 3,
+          "givesClue": "gh_junie_contact_sheet"
+        }
+      ]
+    }
+  ]
+}

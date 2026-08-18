@@ -1,0 +1,44 @@
+{
+  "clues": [
+    {
+      "id": "gh_missing_poster",
+      "title": "Water-Warped Missing Poster",
+      "text": "A flyer stapled to the greenhouse noticeboard, curled soft from humidity. 'HAVE YOU SEEN' a third-year named Tomas Reyes. Last seen near the lake path. Someone's added a hand-drawn bell next to his photo in pencil, then tried to erase it.",
+      "location": "greenhouse",
+      "connections": ["gh_junie_theory"],
+      "unlockFlag": null,
+      "requiresRelationship": null,
+      "requiresRelationshipValue": 0
+    },
+    {
+      "id": "gh_junie_theory",
+      "title": "Junie's Corkboard Theory",
+      "text": "Junie's own corkboard, half photography contact sheets and half conspiracy string. A sticky note in her handwriting: 'ok NOT saying it's the lake but it's kind of always the lake.'",
+      "location": "greenhouse",
+      "connections": ["gh_missing_poster", "gh_gossip"],
+      "unlockFlag": null,
+      "requiresRelationship": null,
+      "requiresRelationshipValue": 0
+    },
+    {
+      "id": "gh_gossip",
+      "title": "Overheard: Two Third-Years",
+      "text": "\"...third one this term.\" \"My cousin said the bell rang the night before, actually rang, not the clock chime.\" \"Don't say that near a teacher, you'll get the talk.\"",
+      "location": "greenhouse",
+      "connections": ["gh_junie_theory", "lake_pattern"],
+      "unlockFlag": "act1_pattern_suspected",
+      "requiresRelationship": null,
+      "requiresRelationshipValue": 0
+    },
+    {
+      "id": "gh_junie_contact_sheet",
+      "title": "Junie's Lake Contact Sheet",
+      "text": "A page of thumbnail photos, mostly out of focus, all shot from the greenhouse's back window: the lake path at dusk, three separate evenings. In the corner of one frame, blurred, someone standing very still.",
+      "location": "greenhouse",
+      "connections": ["lake_pattern"],
+      "unlockFlag": null,
+      "requiresRelationship": "junie",
+      "requiresRelationshipValue": 3
+    }
+  ]
+}

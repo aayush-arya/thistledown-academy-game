@@ -1,0 +1,26 @@
+# Godot 4+ specific ignores
+.godot/
+.import/
+export.cfg
+export_credentials.cfg
+
+# Exported builds
+/build/
+/dist/
+*.exe
+*.pck
+
+# .NET / C#
+.mono/
+data_*/
+mono_crash.*.json
+bin/
+obj/
+*.user
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vs/
+.vscode/
+*.swp

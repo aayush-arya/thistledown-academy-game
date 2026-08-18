@@ -1,0 +1,34 @@
+{
+  "clues": [
+    {
+      "id": "lake_pattern",
+      "title": "It's Always the Lake",
+      "text": "Not a physical object — the player's own conclusion, pinned to the corkboard once enough gossip and photos point the same direction. Every disappearance this term traces back to the lake path.",
+      "location": "greenhouse",
+      "connections": ["gh_gossip", "gh_junie_contact_sheet"],
+      "unlockFlag": "location_lake_shore_unlocked",
+      "requiresRelationship": null,
+      "requiresRelationshipValue": 0
+    },
+    {
+      "id": "lake_footprints",
+      "title": "Footprints That Stop",
+      "text": "A single set of prints in the mud past the reed line, evenly spaced, unhurried. They stop. Nothing continues from where they stop, and nothing turns around.",
+      "location": "lake_shore",
+      "connections": ["lake_torn_coat", "archive_old_clipping"],
+      "unlockFlag": null,
+      "requiresRelationship": null,
+      "requiresRelationshipValue": 0
+    },
+    {
+      "id": "lake_torn_coat",
+      "title": "Torn School Coat",
+      "text": "Snagged on a dead branch above the waterline, a Thistledown uniform coat, third-year cut. The tear isn't a snag tear. It's too clean for that.",
+      "location": "lake_shore",
+      "connections": ["lake_footprints"],
+      "unlockFlag": null,
+      "requiresRelationship": null,
+      "requiresRelationshipValue": 0
+    }
+  ]
+}

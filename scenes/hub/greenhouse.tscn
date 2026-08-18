@@ -1,0 +1,86 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/clues/CluePickup.cs" id="2"]
+[ext_resource type="Script" path="res://scripts/managers/InteractPromptHud.cs" id="3"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(20, 0.2, 20)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.32, 0.29, 0.22, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(20, 0.2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pickup"]
+size = Vector3(0.6, 0.6, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pickup"]
+size = Vector3(0.4, 0.4, 0.4)
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 1
+background_color = Color(0.5, 0.55, 0.5, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.55, 0.55, 0.5, 1)
+ambient_light_energy = 0.6
+fog_enabled = true
+fog_light_color = Color(0.6, 0.62, 0.58, 1)
+fog_density = 0.015
+
+[node name="Greenhouse" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.837, -0.336, 0.43, 0, 0.788, 0.616, -0.547, -0.516, 0.66, 0, 5, 0)
+light_energy = 0.9
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Player" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 4)
+
+[node name="Clue_MissingPoster" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
+script = ExtResource("2")
+ClueId = "gh_missing_poster"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Clue_MissingPoster"]
+shape = SubResource("BoxShape3D_pickup")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Clue_MissingPoster"]
+mesh = SubResource("BoxMesh_pickup")
+
+[node name="Clue_JunieTheory" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
+script = ExtResource("2")
+ClueId = "gh_junie_theory"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Clue_JunieTheory"]
+shape = SubResource("BoxShape3D_pickup")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Clue_JunieTheory"]
+mesh = SubResource("BoxMesh_pickup")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3")
+PlayerPath = NodePath("../Player")
+
+[node name="PromptLabel" type="Label" parent="HUD"]
+offset_left = 24.0
+offset_top = 500.0
+offset_right = 400.0
+offset_bottom = 530.0
+theme_override_font_sizes/font_size = 20
+text = "[E] Examine"
