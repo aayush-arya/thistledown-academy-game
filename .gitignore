@@ -3,6 +3,7 @@
 .import/
 export.cfg
 export_credentials.cfg
+*.csproj.old
 
 # Exported builds
 /build/
