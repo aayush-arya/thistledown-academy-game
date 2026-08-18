@@ -30,6 +30,11 @@ public partial class PlayerController : CharacterBody3D
 		_camera = _springArm.GetNode<Camera3D>("Camera3D");
 		_interactRay = _camera.GetNode<RayCast3D>("InteractRay");
 		_interactRay.TargetPosition = new Vector3(0, 0, -InteractRange);
+		// The ray fires from behind-and-above (camera), through where the
+		// player's own body sits, toward whatever's ahead — without this
+		// exception it hits the player's own collision capsule first and
+		// interaction never reaches anything else.
+		_interactRay.AddException(this);
 
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
