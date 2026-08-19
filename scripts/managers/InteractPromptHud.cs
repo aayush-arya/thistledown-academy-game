@@ -12,10 +12,12 @@ public partial class InteractPromptHud : CanvasLayer
 	[Export] public NodePath PlayerPath = "../Player";
 	[Export] public NodePath LabelPath = "PromptLabel";
 	[Export] public NodePath ToastLabelPath = "ToastLabel";
+	[Export] public NodePath DayLabelPath = "DayLabel";
 	[Export] public float ToastDuration = 2.5f;
 
 	private Label _label = null!;
 	private Label _toastLabel = null!;
+	private Label _dayLabel = null!;
 	private Timer _toastTimer = null!;
 
 	public override void _Ready()
@@ -25,6 +27,8 @@ public partial class InteractPromptHud : CanvasLayer
 
 		_toastLabel = GetNode<Label>(ToastLabelPath);
 		_toastLabel.Visible = false;
+
+		_dayLabel = GetNode<Label>(DayLabelPath);
 
 		_toastTimer = new Timer { OneShot = true, WaitTime = ToastDuration };
 		AddChild(_toastTimer);
@@ -37,6 +41,19 @@ public partial class InteractPromptHud : CanvasLayer
 		{
 			ClueDatabase.Instance.ClueDiscovered += OnClueDiscovered;
 		}
+
+		if (DayNightManager.Instance != null)
+		{
+			DayNightManager.Instance.SlotChanged += _ => UpdateDayLabel();
+			DayNightManager.Instance.DayAdvanced += _ => UpdateDayLabel();
+		}
+		UpdateDayLabel();
+	}
+
+	private void UpdateDayLabel()
+	{
+		if (DayNightManager.Instance == null) return;
+		_dayLabel.Text = $"Day {DayNightManager.Instance.CurrentDay} — {DayNightManager.Instance.CurrentSlot} (T to advance, debug)";
 	}
 
 	private void OnInteractionTargetChanged(string promptText)

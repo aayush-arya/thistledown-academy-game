@@ -40,4 +40,10 @@ public class SaveData
 	// CorkboardConnections since it's presentation, not progression.
 	[JsonPropertyName("pinPositions")]
 	public Dictionary<string, float[]> PinPositions { get; set; } = new();
+
+	[JsonPropertyName("omenAnsweredQuestions")]
+	public List<string> OmenAnsweredQuestions { get; set; } = new();
+
+	[JsonPropertyName("omenLastAskedDay")]
+	public int OmenLastAskedDay { get; set; } = -1;
 }

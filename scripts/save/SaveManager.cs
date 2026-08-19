@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using ThistledownHollowBell.Clues;
 using ThistledownHollowBell.Managers;
+using ThistledownHollowBell.Omen;
 using ThistledownHollowBell.Relationships;
 
 namespace ThistledownHollowBell.Save;
@@ -48,6 +49,8 @@ public partial class SaveManager : Node
 			CorkboardConnections = new List<string>(ClueDatabase.Instance.GetConnectionsForSave()),
 			Relationships = new Dictionary<string, int>(RelationshipManager.Instance.GetValuesForSave()),
 			PinPositions = pinPositions,
+			OmenAnsweredQuestions = new List<string>(OmenGlassManager.Instance.GetAnsweredForSave()),
+			OmenLastAskedDay = OmenGlassManager.Instance.GetLastAskedDayForSave(),
 		};
 
 		string json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
@@ -106,6 +109,8 @@ public partial class SaveManager : Node
 			if (kvp.Value.Length == 2) pinPositions[kvp.Key] = new Vector2(kvp.Value[0], kvp.Value[1]);
 		}
 		ClueDatabase.Instance.LoadPinPositionsFromSave(pinPositions);
+
+		OmenGlassManager.Instance.LoadFromSave(data.OmenAnsweredQuestions, data.OmenLastAskedDay);
 
 		return true;
 	}

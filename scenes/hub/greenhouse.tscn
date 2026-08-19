@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/managers/CorkboardController.cs" id="4"]
 [ext_resource type="Script" path="res://scripts/managers/DialogueController.cs" id="5"]
 [ext_resource type="Script" path="res://scripts/dialogue/Npc.cs" id="6"]
+[ext_resource type="Script" path="res://scripts/managers/OmenGlassController.cs" id="7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
 size = Vector3(20, 0.2, 20)
@@ -71,6 +72,10 @@ PlayerPath = NodePath("../Player")
 
 [node name="DialogueController" type="Node" parent="."]
 script = ExtResource("5")
+PlayerPath = NodePath("../Player")
+
+[node name="OmenGlassController" type="Node" parent="."]
+script = ExtResource("7")
 PlayerPath = NodePath("../Player")
 
 [node name="Npc_Junie" type="Area3D" parent="."]
@@ -144,3 +149,15 @@ offset_bottom = 80.0
 theme_override_font_sizes/font_size = 22
 horizontal_alignment = 1
 text = "Clue found: placeholder"
+
+[node name="DayLabel" type="Label" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -360.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 2
+text = "Day 1 — Morning"

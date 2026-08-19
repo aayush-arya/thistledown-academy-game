@@ -1,0 +1,22 @@
+{
+  "questions": [
+    {
+      "id": "q_where_look",
+      "promptText": "Where should I be looking?",
+      "responseText": "The glass fogs, clears on a smear of green — glass, or water. Something that holds still and shouldn't.",
+      "requiresFlag": null
+    },
+    {
+      "id": "q_junie_trust",
+      "promptText": "Can I trust her?",
+      "responseText": "A shape leans in close to another, unhurried. The glass doesn't flinch. Neither, it seems, should you.",
+      "requiresFlag": "junie_partnered"
+    },
+    {
+      "id": "q_the_bell",
+      "promptText": "What is the Hollow Bell?",
+      "responseText": "No image. Just a sound, once, too far away to place — and then the glass goes dark before you can ask again.",
+      "requiresFlag": "act1_pattern_suspected"
+    }
+  ]
+}

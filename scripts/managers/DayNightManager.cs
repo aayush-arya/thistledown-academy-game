@@ -35,6 +35,19 @@ public partial class DayNightManager : Node
 		Instance = this;
 	}
 
+	// TEMPORARY: there's no in-fiction "end of class/social slot" UI yet
+	// (that's real content work for Phase 4/7 — locations that let you
+	// choose to move on), so there's currently no way to ever reach Dusk
+	// and test the Omen Glass without this. Remove once slot-advancing is
+	// driven by actual scene content instead of a raw debug key.
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event.IsActionPressed("debug_advance_time"))
+		{
+			AdvanceSlot();
+		}
+	}
+
 	// Advances one slot; Night -> Morning rolls the day counter over.
 	public void AdvanceSlot()
 	{

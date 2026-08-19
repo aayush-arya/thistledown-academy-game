@@ -33,7 +33,15 @@ This is an in-progress solo/AI-assisted build. Current state:
   options gated live by flags/clues/relationship thresholds (`DialogueBoxUI`,
   `DialogueController`, `Npc`) — opens on interacting with an NPC, freezes player movement
   while open, closes back into gameplay when the conversation ends
-- Seed content for Act 1 (greenhouse clues + Junie's opening dialogue tree)
+- Omen Glass: once-per-day dusk ritual, data-driven question pool gated by story flags,
+  cryptic non-instructive responses, opens with **G** (`OmenGlassManager`, `OmenGlassUI`,
+  `OmenGlassController`), state persisted through saves
+- **Temporary debug key (T)** advances the day/night slot (Morning → Afternoon → Dusk →
+  Night → next day) — there's no real in-fiction way to end a class/social slot yet, so
+  without this the Omen Glass could never be reached to test. Current day/slot shown top-right
+  of the HUD. Meant to be removed once Phase 4 locations actually drive slot-advancing.
+- Seed content for Act 1 (greenhouse clues, Junie's opening dialogue tree, Omen Glass
+  questions)
 
 **Not yet built** (see `docs/mystery_flowchart.md` for the design):
 - Character portraits in the dialogue box (currently text-only)
@@ -41,7 +49,7 @@ This is an in-progress solo/AI-assisted build. Current state:
   drive this, but no dedicated "show clue as evidence" option type exists yet)
 - Remaining locations (Lake Shore, Archive, Bell Tower) — only the Greenhouse has a built scene
 - Stealth/patrol encounters
-- Omen Glass ritual UI and its question-pool data file
+- Real slot-advancing content (see the debug-key note above)
 - Full art pass (currently placeholder boxes/capsules, no CC0 asset packs imported yet)
 - Audio
 - Windows export configuration
