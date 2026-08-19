@@ -33,6 +33,18 @@ public class Clue
 
 	[JsonPropertyName("requiresRelationshipValue")]
 	public int RequiresRelationshipValue { get; set; }
+
+	// "Not a physical object — the player's own conclusion" (see
+	// docs/mystery_flowchart.md). A conclusion clue has no CluePickup or
+	// dialogue option granting it directly; instead ClueDatabase discovers
+	// it automatically once every clue in Connections has been found.
+	[JsonPropertyName("isConclusion")]
+	public bool IsConclusion { get; set; }
+
+	// Optional: location id unlocked on GameManager when this clue is
+	// successfully connected to another clue on the corkboard.
+	[JsonPropertyName("unlocksLocation")]
+	public string? UnlocksLocation { get; set; }
 }
 
 public class ClueFile

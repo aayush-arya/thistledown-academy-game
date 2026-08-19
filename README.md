@@ -39,15 +39,24 @@ This is an in-progress solo/AI-assisted build. Current state:
 - **Temporary debug key (T)** advances the day/night slot (Morning → Afternoon → Dusk →
   Night → next day) — there's no real in-fiction way to end a class/social slot yet, so
   without this the Omen Glass could never be reached to test. Current day/slot shown top-right
-  of the HUD. Meant to be removed once Phase 4 locations actually drive slot-advancing.
-- Seed content for Act 1 (greenhouse clues, Junie's opening dialogue tree, Omen Glass
-  questions)
+  of the HUD. Meant to be removed once real content drives slot-advancing.
+- Two connected locations: the Greenhouse (start) and the Lake Shore, joined by a gate object
+  each way (`LocationTransition`) — the Lake Shore gate starts locked and only opens once
+  `GameManager.IsLocationUnlocked("lake_shore")` is set
+- Conclusion clues: `lake_pattern` ("it's always the lake") isn't a physical pickup — it's the
+  player's own inference, auto-discovered by `ClueDatabase` once every clue it's declared to
+  connect to has been found, matching the design in `docs/mystery_flowchart.md`. Connecting it
+  on the corkboard is what actually unlocks the Lake Shore.
+- A reusable `LocationHud.tscn` prefab (HUD + Corkboard/Dialogue/OmenGlass controllers) so each
+  new location just instances Player + LocationHud instead of re-wiring everything by hand
+- Seed content for Act 1 (greenhouse + lake shore clues, Junie's full dialogue tree including
+  the trust-gated contact-sheet clue, Omen Glass questions)
 
 **Not yet built** (see `docs/mystery_flowchart.md` for the design):
 - Character portraits in the dialogue box (currently text-only)
 - Interrogation/present-evidence UI for suspects (structurally the same dialogue system could
   drive this, but no dedicated "show clue as evidence" option type exists yet)
-- Remaining locations (Lake Shore, Archive, Bell Tower) — only the Greenhouse has a built scene
+- The Archive and Bell Tower locations
 - Stealth/patrol encounters
 - Real slot-advancing content (see the debug-key note above)
 - Full art pass (currently placeholder boxes/capsules, no CC0 asset packs imported yet)

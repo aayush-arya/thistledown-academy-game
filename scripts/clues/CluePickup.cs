@@ -27,6 +27,15 @@ public partial class CluePickup : Area3D, IInteractable
 			return;
 		}
 
+		var clue = ClueDatabase.Instance?.GetClue(ClueId);
+		if (clue?.RequiresRelationship != null &&
+			Relationships.RelationshipManager.Instance?.MeetsThreshold(clue.RequiresRelationship, clue.RequiresRelationshipValue) != true)
+		{
+			// Soft gate, same philosophy as a bad corkboard connection: the
+			// object just doesn't give anything up yet, no hard fail.
+			return;
+		}
+
 		ClueDatabase.Instance?.DiscoverClue(ClueId);
 	}
 }

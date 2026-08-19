@@ -1,12 +1,10 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/clues/CluePickup.cs" id="2"]
-[ext_resource type="Script" path="res://scripts/managers/InteractPromptHud.cs" id="3"]
-[ext_resource type="Script" path="res://scripts/managers/CorkboardController.cs" id="4"]
-[ext_resource type="Script" path="res://scripts/managers/DialogueController.cs" id="5"]
-[ext_resource type="Script" path="res://scripts/dialogue/Npc.cs" id="6"]
-[ext_resource type="Script" path="res://scripts/managers/OmenGlassController.cs" id="7"]
+[ext_resource type="Script" path="res://scripts/dialogue/Npc.cs" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/hub/LocationHud.tscn" id="4"]
+[ext_resource type="Script" path="res://scripts/player/LocationTransition.cs" id="5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
 size = Vector3(20, 0.2, 20)
@@ -33,6 +31,15 @@ height = 1.8
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_npc"]
 albedo_color = Color(0.25, 0.45, 0.4, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gate"]
+size = Vector3(2, 2.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gate"]
+size = Vector3(2, 2.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gate"]
+albedo_color = Color(0.4, 0.35, 0.5, 1)
 
 [sub_resource type="Environment" id="Environment_1"]
 background_mode = 1
@@ -66,21 +73,11 @@ shape = SubResource("BoxShape3D_floor")
 [node name="Player" parent="." instance=ExtResource("1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 4)
 
-[node name="CorkboardController" type="Node" parent="."]
-script = ExtResource("4")
-PlayerPath = NodePath("../Player")
-
-[node name="DialogueController" type="Node" parent="."]
-script = ExtResource("5")
-PlayerPath = NodePath("../Player")
-
-[node name="OmenGlassController" type="Node" parent="."]
-script = ExtResource("7")
-PlayerPath = NodePath("../Player")
+[node name="LocationHud" parent="." instance=ExtResource("4")]
 
 [node name="Npc_Junie" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, -2)
-script = ExtResource("6")
+script = ExtResource("3")
 DisplayName = "Junie"
 StartNodeId = "junie_intro"
 
@@ -113,51 +110,27 @@ shape = SubResource("BoxShape3D_pickup")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Clue_JunieTheory"]
 mesh = SubResource("BoxMesh_pickup")
 
-[node name="HUD" type="CanvasLayer" parent="."]
-script = ExtResource("3")
-PlayerPath = NodePath("../Player")
+[node name="Clue_Gossip" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+script = ExtResource("2")
+ClueId = "gh_gossip"
 
-[node name="Crosshair" type="ColorRect" parent="HUD"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 2.0
-offset_bottom = 2.0
-color = Color(1, 1, 1, 0.85)
-mouse_filter = 2
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Clue_Gossip"]
+shape = SubResource("BoxShape3D_pickup")
 
-[node name="PromptLabel" type="Label" parent="HUD"]
-offset_left = 24.0
-offset_top = 500.0
-offset_right = 400.0
-offset_bottom = 530.0
-theme_override_font_sizes/font_size = 20
-text = "[E] Examine"
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Clue_Gossip"]
+mesh = SubResource("BoxMesh_pickup")
 
-[node name="ToastLabel" type="Label" parent="HUD"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -220.0
-offset_top = 40.0
-offset_right = 220.0
-offset_bottom = 80.0
-theme_override_font_sizes/font_size = 22
-horizontal_alignment = 1
-text = "Clue found: placeholder"
+[node name="Gate_LakeShore" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -9)
+script = ExtResource("5")
+RequiredLocationId = "lake_shore"
+TargetScenePath = "res://scenes/locations/lake_shore.tscn"
+UnlockedPrompt = "Head to the lake shore"
 
-[node name="DayLabel" type="Label" parent="HUD"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -360.0
-offset_top = 16.0
-offset_right = -16.0
-offset_bottom = 40.0
-theme_override_font_sizes/font_size = 16
-horizontal_alignment = 2
-text = "Day 1 — Morning"
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gate_LakeShore"]
+shape = SubResource("BoxShape3D_gate")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Gate_LakeShore"]
+mesh = SubResource("BoxMesh_gate")
+surface_material_override/0 = SubResource("StandardMaterial3D_gate")

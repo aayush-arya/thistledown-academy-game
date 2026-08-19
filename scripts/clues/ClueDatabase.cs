@@ -115,6 +115,29 @@ public partial class ClueDatabase : Node
 		if (_discovered.Add(id))
 		{
 			EmitSignal(SignalName.ClueDiscovered, id);
+			CheckConclusionClues();
+		}
+	}
+
+	// A conclusion clue (IsConclusion) has no pickup or dialogue line of
+	// its own — it's "pinned" automatically once every clue it lists in
+	// Connections has been found. Runs after every discovery; recurses
+	// naturally through DiscoverClue since HashSet.Add is idempotent, so a
+	// chain of conclusions resolves in one pass without extra bookkeeping.
+	private void CheckConclusionClues()
+	{
+		foreach (var clue in _allClues.Values)
+		{
+			if (!clue.IsConclusion || _discovered.Contains(clue.Id)) continue;
+			if (clue.Connections.Length == 0) continue;
+
+			bool allFound = true;
+			foreach (var prereqId in clue.Connections)
+			{
+				if (!_discovered.Contains(prereqId)) { allFound = false; break; }
+			}
+
+			if (allFound) DiscoverClue(clue.Id);
 		}
 	}
 
@@ -129,10 +152,16 @@ public partial class ClueDatabase : Node
 		{
 			_connections.Add(NormalizeKey(clueIdA, clueIdB));
 
-			if (_allClues.TryGetValue(clueIdA, out var a) && a.UnlockFlag != null)
-				Managers.GameManager.Instance?.SetFlag(a.UnlockFlag);
-			if (_allClues.TryGetValue(clueIdB, out var b) && b.UnlockFlag != null)
-				Managers.GameManager.Instance?.SetFlag(b.UnlockFlag);
+			if (_allClues.TryGetValue(clueIdA, out var a))
+			{
+				if (a.UnlockFlag != null) Managers.GameManager.Instance?.SetFlag(a.UnlockFlag);
+				if (a.UnlocksLocation != null) Managers.GameManager.Instance?.UnlockLocation(a.UnlocksLocation);
+			}
+			if (_allClues.TryGetValue(clueIdB, out var b))
+			{
+				if (b.UnlockFlag != null) Managers.GameManager.Instance?.SetFlag(b.UnlockFlag);
+				if (b.UnlocksLocation != null) Managers.GameManager.Instance?.UnlockLocation(b.UnlocksLocation);
+			}
 		}
 
 		EmitSignal(SignalName.ConnectionMade, clueIdA, clueIdB, correct);

@@ -38,7 +38,7 @@
       "connections": ["lake_pattern"],
       "unlockFlag": null,
       "requiresRelationship": "junie",
-      "requiresRelationshipValue": 3
+      "requiresRelationshipValue": 2
     }
   ]
 }

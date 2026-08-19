@@ -8,7 +8,9 @@
       "connections": ["gh_gossip", "gh_junie_contact_sheet"],
       "unlockFlag": "location_lake_shore_unlocked",
       "requiresRelationship": null,
-      "requiresRelationshipValue": 0
+      "requiresRelationshipValue": 0,
+      "isConclusion": true,
+      "unlocksLocation": "lake_shore"
     },
     {
       "id": "lake_footprints",

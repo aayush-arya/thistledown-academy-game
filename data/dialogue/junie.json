@@ -73,7 +73,7 @@
       "options": [
         {
           "text": "Fine. Show me what you've got.",
-          "next": null,
+          "next": "junie_trusted_sheet",
           "setFlag": "junie_partnered",
           "relationshipTarget": "junie",
           "relationshipDelta": 1
@@ -89,7 +89,7 @@
           "text": "Ask to see it.",
           "next": null,
           "requiresRelationship": "junie",
-          "requiresRelationshipValue": 3,
+          "requiresRelationshipValue": 2,
           "givesClue": "gh_junie_contact_sheet"
         }
       ]

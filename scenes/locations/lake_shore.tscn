@@ -1,0 +1,101 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/clues/CluePickup.cs" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/hub/LocationHud.tscn" id="3"]
+[ext_resource type="Script" path="res://scripts/player/LocationTransition.cs" id="4"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(24, 0.2, 24)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.18, 0.2, 0.19, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(24, 0.2, 24)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pickup"]
+size = Vector3(0.6, 0.6, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pickup"]
+size = Vector3(0.4, 0.4, 0.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gate"]
+size = Vector3(2, 2.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_gate"]
+size = Vector3(2, 2.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gate"]
+albedo_color = Color(0.4, 0.35, 0.5, 1)
+
+[sub_resource type="Environment" id="Environment_1"]
+background_mode = 1
+background_color = Color(0.22, 0.26, 0.28, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.3, 0.34, 0.36, 1)
+ambient_light_energy = 0.5
+fog_enabled = true
+fog_light_color = Color(0.28, 0.32, 0.34, 1)
+fog_density = 0.04
+
+[node name="LakeShore" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.7, -0.5, 0.5, 0, 0.7, 0.7, -0.7, -0.5, 0.5, 0, 6, 0)
+light_energy = 0.5
+light_color = Color(0.75, 0.8, 0.85, 1)
+shadow_enabled = true
+
+[node name="Floor" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_floor")
+
+[node name="Player" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 8)
+
+[node name="LocationHud" parent="." instance=ExtResource("3")]
+
+[node name="Clue_Footprints" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, -2)
+script = ExtResource("2")
+ClueId = "lake_footprints"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Clue_Footprints"]
+shape = SubResource("BoxShape3D_pickup")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Clue_Footprints"]
+mesh = SubResource("BoxMesh_pickup")
+
+[node name="Clue_TornCoat" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, -4)
+script = ExtResource("2")
+ClueId = "lake_torn_coat"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Clue_TornCoat"]
+shape = SubResource("BoxShape3D_pickup")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Clue_TornCoat"]
+mesh = SubResource("BoxMesh_pickup")
+
+[node name="Gate_Greenhouse" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 11)
+script = ExtResource("4")
+RequiredLocationId = ""
+TargetScenePath = "res://scenes/hub/greenhouse.tscn"
+UnlockedPrompt = "Back to the greenhouse"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Gate_Greenhouse"]
+shape = SubResource("BoxShape3D_gate")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Gate_Greenhouse"]
+mesh = SubResource("BoxMesh_gate")
+surface_material_override/0 = SubResource("StandardMaterial3D_gate")
