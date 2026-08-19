@@ -36,6 +36,7 @@ public partial class InteractPromptHud : CanvasLayer
 
 		var player = GetNode<PlayerController>(PlayerPath);
 		player.InteractionTargetChanged += OnInteractionTargetChanged;
+		player.GameplayInputEnabledChanged += enabled => Visible = enabled;
 
 		if (ClueDatabase.Instance != null)
 		{

@@ -25,8 +25,14 @@ public partial class PlayerController : CharacterBody3D
 	[Signal]
 	public delegate void InteractionTargetChangedEventHandler(string promptText);
 
-	// Used by UI overlays (corkboard, dialogue, pause) to freeze movement/
-	// look/interact and release the mouse while they're open.
+	[Signal]
+	public delegate void GameplayInputEnabledChangedEventHandler(bool enabled);
+
+	// Used by UI overlays (corkboard, dialogue, Omen Glass, pause) to
+	// freeze movement/look/interact and release the mouse while they're
+	// open. The HUD listens to the paired signal to hide itself in step —
+	// otherwise HUD elements (day/slot label, crosshair) sit on top of
+	// whatever overlay just opened.
 	public void SetGameplayInputEnabled(bool enabled)
 	{
 		_inputEnabled = enabled;
@@ -37,6 +43,8 @@ public partial class PlayerController : CharacterBody3D
 			_currentInteractable = null;
 			EmitSignal(SignalName.InteractionTargetChanged, "");
 		}
+
+		EmitSignal(SignalName.GameplayInputEnabledChanged, enabled);
 	}
 
 	public override void _Ready()
