@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/clues/CluePickup.cs" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/hub/LocationHud.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/player/LocationTransition.cs" id="4"]
+[ext_resource type="Script" path="res://scripts/player/PatrolAgent.cs" id="5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
 size = Vector3(24, 0.2, 24)
@@ -28,6 +29,13 @@ size = Vector3(2, 2.5, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gate"]
 albedo_color = Color(0.4, 0.35, 0.5, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_patrol"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_patrol"]
+albedo_color = Color(0.08, 0.07, 0.07, 1)
 
 [sub_resource type="Environment" id="Environment_1"]
 background_mode = 1
@@ -85,6 +93,28 @@ shape = SubResource("BoxShape3D_pickup")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Clue_TornCoat"]
 mesh = SubResource("BoxMesh_pickup")
+
+[node name="PatrolAgent" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.9, -6)
+script = ExtResource("5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PatrolAgent"]
+mesh = SubResource("CapsuleMesh_patrol")
+surface_material_override/0 = SubResource("StandardMaterial3D_patrol")
+
+[node name="Waypoints" type="Node3D" parent="PatrolAgent"]
+
+[node name="W1" type="Marker3D" parent="PatrolAgent/Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, -6)
+
+[node name="W2" type="Marker3D" parent="PatrolAgent/Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.9, -6)
+
+[node name="W3" type="Marker3D" parent="PatrolAgent/Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0.9, 0)
+
+[node name="W4" type="Marker3D" parent="PatrolAgent/Waypoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0.9, 0)
 
 [node name="Gate_Greenhouse" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 11)

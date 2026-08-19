@@ -51,13 +51,16 @@ This is an in-progress solo/AI-assisted build. Current state:
   new location just instances Player + LocationHud instead of re-wiring everything by hand
 - Seed content for Act 1 (greenhouse + lake shore clues, Junie's full dialogue tree including
   the trust-gated contact-sheet clue, Omen Glass questions)
+- Stealth: a patrol agent at the Lake Shore walks a waypoint loop, only active during the
+  Night slot, and builds up a detection meter while the player stays within range — getting
+  caught shows a message and costs a day via `DayNightManager.ForceSendToDorm` (never a hard
+  fail) (`PatrolAgent`)
 
 **Not yet built** (see `docs/mystery_flowchart.md` for the design):
 - Character portraits in the dialogue box (currently text-only)
 - Interrogation/present-evidence UI for suspects (structurally the same dialogue system could
   drive this, but no dedicated "show clue as evidence" option type exists yet)
 - The Archive and Bell Tower locations
-- Stealth/patrol encounters
 - Real slot-advancing content (see the debug-key note above)
 - Full art pass (currently placeholder boxes/capsules, no CC0 asset packs imported yet)
 - Audio

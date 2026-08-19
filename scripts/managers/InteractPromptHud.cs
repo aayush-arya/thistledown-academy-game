@@ -22,6 +22,8 @@ public partial class InteractPromptHud : CanvasLayer
 
 	public override void _Ready()
 	{
+		AddToGroup("hud");
+
 		_label = GetNode<Label>(LabelPath);
 		_label.Visible = false;
 
@@ -73,7 +75,14 @@ public partial class InteractPromptHud : CanvasLayer
 	private void OnClueDiscovered(string clueId)
 	{
 		var clue = ClueDatabase.Instance?.GetClue(clueId);
-		_toastLabel.Text = clue != null ? $"Clue found: {clue.Title}" : $"Clue found: {clueId}";
+		ShowToast(clue != null ? $"Clue found: {clue.Title}" : $"Clue found: {clueId}");
+	}
+
+	// Public so other systems (e.g. a stealth encounter) can borrow the
+	// same toast without each needing their own on-screen message plumbing.
+	public void ShowToast(string text)
+	{
+		_toastLabel.Text = text;
 		_toastLabel.Visible = true;
 		_toastTimer.Start();
 	}
