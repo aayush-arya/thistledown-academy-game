@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://scripts/dialogue/Npc.cs" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/hub/LocationHud.tscn" id="4"]
 [ext_resource type="Script" path="res://scripts/player/LocationTransition.cs" id="5"]
+[ext_resource type="Script" path="res://scripts/player/RestSpot.cs" id="6"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
 size = Vector3(20, 0.2, 20)
@@ -40,6 +41,15 @@ size = Vector3(2, 2.5, 0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gate"]
 albedo_color = Color(0.4, 0.35, 0.5, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bench"]
+size = Vector3(1.4, 0.5, 0.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_bench"]
+size = Vector3(1.4, 0.5, 0.6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bench"]
+albedo_color = Color(0.35, 0.25, 0.15, 1)
 
 [sub_resource type="Environment" id="Environment_1"]
 background_mode = 1
@@ -120,6 +130,18 @@ shape = SubResource("BoxShape3D_pickup")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Clue_Gossip"]
 mesh = SubResource("BoxMesh_pickup")
+
+[node name="Bench" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.25, 4)
+script = ExtResource("6")
+ActivityLabel = "Sit and wait"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bench"]
+shape = SubResource("BoxShape3D_bench")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Bench"]
+mesh = SubResource("BoxMesh_bench")
+surface_material_override/0 = SubResource("StandardMaterial3D_bench")
 
 [node name="Gate_LakeShore" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -9)

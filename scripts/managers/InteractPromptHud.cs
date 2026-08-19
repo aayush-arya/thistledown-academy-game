@@ -56,7 +56,7 @@ public partial class InteractPromptHud : CanvasLayer
 	private void UpdateDayLabel()
 	{
 		if (DayNightManager.Instance == null) return;
-		_dayLabel.Text = $"Day {DayNightManager.Instance.CurrentDay} — {DayNightManager.Instance.CurrentSlot} (T to advance, debug)";
+		_dayLabel.Text = $"Day {DayNightManager.Instance.CurrentDay} — {DayNightManager.Instance.CurrentSlot}";
 	}
 
 	private void OnInteractionTargetChanged(string promptText)
