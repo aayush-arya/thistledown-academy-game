@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/player/Player.tscn" id="1"]
 [ext_resource type="Script" path="res://scripts/clues/CluePickup.cs" id="2"]
 [ext_resource type="Script" path="res://scripts/managers/InteractPromptHud.cs" id="3"]
 [ext_resource type="Script" path="res://scripts/managers/CorkboardController.cs" id="4"]
+[ext_resource type="Script" path="res://scripts/managers/DialogueController.cs" id="5"]
+[ext_resource type="Script" path="res://scripts/dialogue/Npc.cs" id="6"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_floor"]
 size = Vector3(20, 0.2, 20)
@@ -19,6 +21,17 @@ size = Vector3(0.6, 0.6, 0.6)
 
 [sub_resource type="BoxMesh" id="BoxMesh_pickup"]
 size = Vector3(0.4, 0.4, 0.4)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_npc"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_npc"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_npc"]
+albedo_color = Color(0.25, 0.45, 0.4, 1)
 
 [sub_resource type="Environment" id="Environment_1"]
 background_mode = 1
@@ -55,6 +68,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 4)
 [node name="CorkboardController" type="Node" parent="."]
 script = ExtResource("4")
 PlayerPath = NodePath("../Player")
+
+[node name="DialogueController" type="Node" parent="."]
+script = ExtResource("5")
+PlayerPath = NodePath("../Player")
+
+[node name="Npc_Junie" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, -2)
+script = ExtResource("6")
+DisplayName = "Junie"
+StartNodeId = "junie_intro"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Npc_Junie"]
+shape = SubResource("CapsuleShape3D_npc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Npc_Junie"]
+mesh = SubResource("CapsuleMesh_npc")
+surface_material_override/0 = SubResource("StandardMaterial3D_npc")
 
 [node name="Clue_MissingPoster" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)

@@ -27,13 +27,18 @@ This is an in-progress solo/AI-assisted build. Current state:
   another card to attempt a connection, soft "that doesn't feel right yet" nudge on a wrong
   guess, opens/closes with **J** and freezes player movement while open (`CorkboardUI`,
   `CorkboardPin`, `CorkboardController`)
-- A minimal playable test scene (greenhouse) with two pickable clues, a "clue found" toast,
-  and a main menu
+- A minimal playable test scene (greenhouse) with two pickable clues, an NPC (Junie) you can
+  talk to, a "clue found" toast, and a main menu
+- Dialogue box UI: bottom-anchored VN-style box, speaker/text/option buttons rebuilt per node,
+  options gated live by flags/clues/relationship thresholds (`DialogueBoxUI`,
+  `DialogueController`, `Npc`) — opens on interacting with an NPC, freezes player movement
+  while open, closes back into gameplay when the conversation ends
 - Seed content for Act 1 (greenhouse clues + Junie's opening dialogue tree)
 
 **Not yet built** (see `docs/mystery_flowchart.md` for the design):
-- Dialogue box UI with portraits — `DialogueManager` has no on-screen presentation yet
-- Interrogation/present-evidence UI for suspects
+- Character portraits in the dialogue box (currently text-only)
+- Interrogation/present-evidence UI for suspects (structurally the same dialogue system could
+  drive this, but no dedicated "show clue as evidence" option type exists yet)
 - Remaining locations (Lake Shore, Archive, Bell Tower) — only the Greenhouse has a built scene
 - Stealth/patrol encounters
 - Omen Glass ritual UI and its question-pool data file
